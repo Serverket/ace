@@ -82,7 +82,7 @@ fi
 
 # 5. Build AppImage (Native mksquashfs, 0 caveats, no segfaults)
 echo "⚙️ Packaging AppImage via mksquashfs..."
-mksquashfs "$APPDIR" ace.squashfs -root-owned -noappend -comp zstd -quiet
+mksquashfs "$APPDIR" ace.squashfs -root-owned -noappend -comp xz -quiet
 cat runtime-x86_64 ace.squashfs > "ACE-${VERSION}-x86_64.AppImage"
 chmod +x "ACE-${VERSION}-x86_64.AppImage"
 
