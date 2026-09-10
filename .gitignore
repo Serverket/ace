@@ -1,0 +1,40 @@
+# Entornos Virtuales
+venv/
+env/
+.env
+.venv/
+
+# Archivos de configuración locales / auto-generados
+config.json
+launch_ace.vbs
+ace_error.log
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Archivos temporales y SO
+*.tmp
+*.log
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+
+# Build y Binarios
+build/
+dist/
+*.spec
+*.AppImage
+*.AppDir
+squashfs-root/
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
