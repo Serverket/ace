@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { RefreshCw, ShieldCheck, Copy, Check, Calculator, ArrowRightLeft, TrendingUp } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { SpotlightCard } from './SpotlightCard';
+
+
 
 import { _XOR_KEY, decodeX } from '../lib/cipher';
 
@@ -210,106 +210,115 @@ export const LiveRates: React.FC = () => {
   }, [bcvRate, paraleloRate]);
 
   return (
-    <section id="cotizaciones" className="py-24 relative overflow-hidden bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="cotizaciones" className="bg-white border-t-8 border-black">
+      <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/70 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-4">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-              Mercados en Tiempo Real
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-black text-white text-xs font-black uppercase tracking-wider mb-4 border-2 border-transparent">
+              <span className="w-2 h-2 bg-brutal-green animate-ping"></span>
+              EN TIEMPO REAL
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-3">
-              Pizarra Financiera Oficial
+            <h2 className="text-4xl sm:text-6xl font-black text-black tracking-tighter mb-4 uppercase">
+              PIZARRA FINANCIERA
             </h2>
-            <p className="text-slate-600 max-w-2xl text-base sm:text-lg">
+            <p className="text-black font-bold max-w-2xl text-lg sm:text-xl uppercase border-l-4 border-brutal-red pl-4">
               Consulta las cotizaciones con precisión milimétrica. Esta demo consume las fuentes oficiales de manera asíncrona y ofuscada.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {lastUpdated && (
-              <span className="text-xs font-mono text-amber-600 bg-amber-50/50 px-3 py-1.5 rounded-lg border border-amber-200/50">
-                Consulta: {lastUpdated}
+              <span className="text-sm font-mono font-black text-black bg-brutal-yellow px-4 py-2 border-4 border-black shadow-brutal-sm">
+                UPDATED: {lastUpdated}
               </span>
             )}
             <button
               onClick={fetchRates}
               disabled={refreshing}
-              className="flex items-center gap-2 text-sm font-bold text-amber-900 hover:text-amber-600 bg-gradient-to-r from-amber-100 to-yellow-100 hover:from-yellow-100 hover:to-amber-200 border border-amber-300/60 shadow-sm px-4 py-2 rounded-xl transition-all disabled:opacity-50"
+              className="flex items-center gap-2 text-sm font-black text-white bg-brutal-blue border-4 border-black shadow-brutal-sm px-6 py-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all disabled:opacity-50 uppercase"
             >
-              <RefreshCw className={`w-4 h-4 text-amber-600 ${refreshing ? 'animate-spin' : ''}`} />
-              <span>{refreshing ? 'Actualizando...' : 'Actualizar Data'}</span>
+              <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
+              <span>{refreshing ? 'LOADING...' : 'REFRESH'}</span>
             </button>
           </div>
         </div>
 
         {/* Spread Notice Banner (Brecha Cambiaria) */}
         {spreadData && (
-          <div className="mb-8 p-4 rounded-2xl bg-gradient-to-r from-blue-50/70 via-indigo-50/60 to-emerald-50/70 border border-blue-200/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-blue-600 text-white shadow-sm">
-                <TrendingUp className="w-5 h-5" />
+          <div className="mb-12 p-6 bg-white border-4 border-black shadow-brutal flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-brutal-yellow border-2 border-black text-black shadow-brutal-sm">
+                <TrendingUp className="w-8 h-8" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-slate-900">
-                  Brecha Cambiaria (Spread Paralelo vs BCV)
+                <h4 className="text-xl font-black text-black uppercase">
+                  BRECHA CAMBIARIA
                 </h4>
-                <p className="text-xs text-slate-600">
-                  Diferencia actual entre la tasa oficial del Banco Central y el promedio paralelo.
+                <p className="text-sm font-bold text-black uppercase">
+                  Spread Paralelo vs BCV
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 font-mono">
-              <span className="px-3 py-1 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold">
+            <div className="flex items-center gap-4 font-mono">
+              <span className="px-4 py-2 bg-white border-4 border-black text-black font-black text-lg">
                 Δ +{spreadData.diffBs} Bs
               </span>
-              <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-sm">
+              <span className="px-4 py-2 bg-brutal-green border-4 border-black text-black font-black text-lg shadow-brutal-sm">
                 +{spreadData.diffPercent}%
               </span>
             </div>
           </div>
         )}
 
-        {/* Live Rates 4 Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {/* Live Rates 4 Cards Grid - No gaps style via thick borders */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 mb-16 border-4 border-black bg-black">
           {rates.map((rate) => {
             const isCopied = copiedId === rate.id;
+            // Map original gradient colors to brutalist solids for the badge if desired, or just use black/white
+            let brutalColor = 'bg-black';
+            if (rate.id === 'bcv') brutalColor = 'bg-brutal-blue text-white';
+            if (rate.id === 'paralelo') brutalColor = 'bg-brutal-green text-black';
+            if (rate.id === 'binance') brutalColor = 'bg-brutal-yellow text-black';
+            if (rate.id === 'euro') brutalColor = 'bg-brutal-red text-white';
+
             return (
-              <SpotlightCard
+              <div
                 key={rate.id}
-                className={`p-6 border-slate-200 group ${rate.borderAccent}`}
+                className="p-6 bg-white border-2 border-black flex flex-col justify-between group"
               >
                 {/* Top Badge & Live Indicator */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className={`w-12 h-12 rounded-2xl ${rate.badgeColor} flex items-center justify-center text-white font-extrabold text-xl shadow-md`}>
+                <div className="flex items-center justify-between mb-8">
+                  <div className={`w-14 h-14 border-4 border-black flex items-center justify-center font-black text-2xl shadow-brutal-sm ${brutalColor}`}>
                     {rate.symbol}
                   </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200/60 text-[11px] font-bold text-slate-600">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>EN VIVO</span>
+                  <div className="flex items-center gap-2 px-3 py-1 bg-white border-2 border-black text-xs font-black text-black shadow-brutal-sm">
+                    <span className="w-2 h-2 bg-brutal-red animate-pulse"></span>
+                    <span>LIVE</span>
                   </div>
                 </div>
 
                 {/* Rate Names & Description */}
-                <h3 className="text-base font-bold text-slate-900 mb-0.5">
-                  {rate.name}
-                </h3>
-                <p className="text-xs text-slate-500 mb-5 line-clamp-1">
-                  {rate.sourceDesc}
-                </p>
+                <div>
+                  <h3 className="text-2xl font-black text-black mb-2 uppercase">
+                    {rate.name}
+                  </h3>
+                  <p className="text-xs font-bold text-black mb-8 h-8 uppercase border-b-4 border-black pb-4">
+                    {rate.sourceDesc}
+                  </p>
+                </div>
 
                 {/* Price Display */}
-                <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-slate-100">
-                  <div className="flex items-baseline gap-1.5 font-mono">
+                <div className="flex items-baseline justify-between mb-8">
+                  <div className="flex items-baseline gap-2 font-mono">
                     {refreshing ? (
-                      <div className="h-10 w-28 bg-slate-200 rounded-lg animate-pulse"></div>
+                      <div className="h-12 w-32 bg-black animate-pulse"></div>
                     ) : (
-                      <span className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight tabular-numbers">
+                      <span className="text-4xl sm:text-5xl font-black text-black tracking-tighter tabular-numbers">
                         {formatPrice(rate.value)}
                       </span>
                     )}
-                    <span className="text-sm font-bold text-slate-500">Bs</span>
+                    <span className="text-lg font-black text-black">Bs</span>
                   </div>
                 </div>
 
@@ -317,70 +326,62 @@ export const LiveRates: React.FC = () => {
                 <button
                   onClick={() => handleCopyRate(rate)}
                   disabled={!rate.value}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200/70 hover:border-blue-300 text-xs font-bold transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-4 px-4 bg-white hover:bg-black text-black hover:text-white border-4 border-black font-black transition-colors uppercase shadow-brutal-sm hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
                 >
                   {isCopied ? (
                     <>
-                      <Check className="w-4 h-4 text-emerald-600" />
-                      <span className="text-emerald-700">¡Cotización Copiada!</span>
+                      <Check className="w-5 h-5 text-brutal-green" />
+                      <span className="text-brutal-green">¡COPIADO!</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
-                      <span>Copiar al portapapeles</span>
+                      <Copy className="w-5 h-5" />
+                      <span>COPIAR</span>
                     </>
                   )}
                 </button>
-              </SpotlightCard>
+              </div>
             );
           })}
         </div>
 
-        {/* Integrated Quick Currency Calculator */}
-        <motion.div 
+        {/* Integrated Quick Currency Calculator - Terminal Brutalist Style */}
+        <div 
           id="calculadora" 
-          className="rounded-3xl p-8 sm:p-10 bg-slate-900 text-white relative overflow-hidden shadow-2xl border border-slate-800"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="p-8 sm:p-12 bg-black border-8 border-black text-white relative shadow-brutal-lg"
         >
-          {/* Subtle ambient lighting */}
-          <div className="absolute -right-20 -top-20 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-emerald-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b-4 border-white pb-6">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">
-                  <Calculator className="w-3.5 h-3.5" />
-                  Calculadora Cambiaria en Vivo
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white text-black text-xs font-black uppercase mb-4 shadow-brutal-sm">
+                  <Calculator className="w-4 h-4" />
+                  TERMINAL CAMBIARIA
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                  Conversión Instantánea Multi-Tasa
+                <h3 className="text-3xl sm:text-5xl font-black text-white uppercase">
+                  CONVERSIÓN MULTI-TASA
                 </h3>
               </div>
 
               {/* Conversion Direction Toggle */}
               <button
                 onClick={() => setCalcDirection(calcDirection === 'usdToVes' ? 'vesToUsd' : 'usdToVes')}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 transition-colors self-start md:self-auto"
+                className="flex items-center gap-2 px-6 py-3 bg-brutal-yellow text-black border-4 border-white font-black text-sm uppercase shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all self-start md:self-auto"
               >
-                <ArrowRightLeft className="w-3.5 h-3.5 text-blue-400" />
+                <ArrowRightLeft className="w-5 h-5" />
                 <span>
-                  {calcDirection === 'usdToVes' ? 'De Divisas a Bolívares' : 'De Bolívares a Divisas'}
+                  {calcDirection === 'usdToVes' ? 'DIVISAS -> BS' : 'BS -> DIVISAS'}
                 </span>
               </button>
             </div>
 
             {/* Calculator Input Box */}
-            <div className="mb-8">
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                {calcDirection === 'usdToVes' ? 'Monto a Convertir (USD / EUR):' : 'Monto en Bolívares (Bs):'}
+            <div className="mb-12">
+              <label className="block text-xl font-black text-white uppercase mb-4">
+                {calcDirection === 'usdToVes' ? 'MONTO (USD / EUR):' : 'MONTO EN BOLÍVARES (BS):'}
               </label>
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <div className="relative w-full sm:w-80">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-lg">
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="relative w-full sm:w-96">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-black font-black text-2xl">
                     {calcDirection === 'usdToVes' ? '$' : 'Bs'}
                   </span>
                   <input
@@ -389,21 +390,21 @@ export const LiveRates: React.FC = () => {
                     step="any"
                     value={calcAmount || ''}
                     onChange={(e) => setCalcAmount(Math.max(0, Number(e.target.value)))}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800/90 border border-slate-700 text-white font-mono font-bold text-xl focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full pl-12 pr-4 py-4 bg-white border-4 border-white text-black font-mono font-black text-3xl focus:outline-none focus:border-brutal-yellow transition-colors"
                     placeholder="100"
                   />
                 </div>
 
                 {/* Quick amount presets */}
-                <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
+                <div className="flex items-center gap-3 flex-wrap w-full sm:w-auto">
                   {(calcDirection === 'usdToVes' ? [10, 50, 100, 500, 1000] : [500, 1000, 5000, 10000]).map((preset) => (
                     <button
                       key={preset}
                       onClick={() => setCalcAmount(preset)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+                      className={`px-4 py-2 border-4 font-mono font-black transition-all ${
                         calcAmount === preset
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                          ? 'bg-brutal-blue border-white text-white shadow-brutal-sm'
+                          : 'bg-black border-white text-white hover:bg-white hover:text-black'
                       }`}
                     >
                       {calcDirection === 'usdToVes' ? `$${preset}` : `${preset.toLocaleString('es-VE')} Bs`}
@@ -414,19 +415,19 @@ export const LiveRates: React.FC = () => {
             </div>
 
             {/* Results Across Rates Comparison */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border-4 border-white bg-white">
               {/* BCV Result */}
-              <div className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-400 mb-2">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#0038a8]"></span>
-                    Al BCV Oficial ($)
+              <div className="p-6 bg-black border-2 border-white flex flex-col justify-between">
+                <div className="flex items-center justify-between text-sm font-black text-white mb-4 uppercase">
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-brutal-blue border-2 border-white"></span>
+                    BCV OFICIAL
                   </span>
-                  <span className="font-mono text-[11px] text-blue-400">
-                    {bcvRate ? `${bcvRate} Bs` : '...'}
+                  <span className="font-mono text-xs text-brutal-blue bg-white px-2 py-1">
+                    {bcvRate ? `${bcvRate} Bs` : 'ERR'}
                   </span>
                 </div>
-                <div className="font-mono text-2xl font-black text-white">
+                <div className="font-mono text-3xl sm:text-4xl font-black text-white truncate">
                   {bcvRate
                     ? calcDirection === 'usdToVes'
                       ? `${(calcAmount * bcvRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`
@@ -436,17 +437,17 @@ export const LiveRates: React.FC = () => {
               </div>
 
               {/* Paralelo Result */}
-              <div className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-400 mb-2">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#059669]"></span>
-                    Al Dólar Paralelo
+              <div className="p-6 bg-black border-2 border-white flex flex-col justify-between">
+                <div className="flex items-center justify-between text-sm font-black text-white mb-4 uppercase">
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-brutal-green border-2 border-white"></span>
+                    PARALELO
                   </span>
-                  <span className="font-mono text-[11px] text-emerald-400">
-                    {paraleloRate ? `${paraleloRate} Bs` : '...'}
+                  <span className="font-mono text-xs text-black bg-brutal-green px-2 py-1">
+                    {paraleloRate ? `${paraleloRate} Bs` : 'ERR'}
                   </span>
                 </div>
-                <div className="font-mono text-2xl font-black text-emerald-400">
+                <div className="font-mono text-3xl sm:text-4xl font-black text-brutal-green truncate">
                   {paraleloRate
                     ? calcDirection === 'usdToVes'
                       ? `${(calcAmount * paraleloRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`
@@ -456,17 +457,17 @@ export const LiveRates: React.FC = () => {
               </div>
 
               {/* Binance Result */}
-              <div className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-400 mb-2">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#d97706]"></span>
-                    A Binance P2P (USDT)
+              <div className="p-6 bg-black border-2 border-white flex flex-col justify-between">
+                <div className="flex items-center justify-between text-sm font-black text-white mb-4 uppercase">
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-brutal-yellow border-2 border-white"></span>
+                    BINANCE P2P
                   </span>
-                  <span className="font-mono text-[11px] text-amber-400">
-                    {rates.find((r) => r.id === 'binance')?.value ? `${rates.find((r) => r.id === 'binance')?.value} Bs` : '...'}
+                  <span className="font-mono text-xs text-black bg-brutal-yellow px-2 py-1">
+                    {rates.find((r) => r.id === 'binance')?.value ? `${rates.find((r) => r.id === 'binance')?.value} Bs` : 'ERR'}
                   </span>
                 </div>
-                <div className="font-mono text-2xl font-black text-amber-400">
+                <div className="font-mono text-3xl sm:text-4xl font-black text-brutal-yellow truncate">
                   {rates.find((r) => r.id === 'binance')?.value
                     ? calcDirection === 'usdToVes'
                       ? `${(calcAmount * (rates.find((r) => r.id === 'binance')?.value || 1)).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`
@@ -477,14 +478,14 @@ export const LiveRates: React.FC = () => {
             </div>
 
             {/* Anti Scraping Notice */}
-            <div className="mt-6 flex items-center gap-2 text-slate-400 text-xs">
-              <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0" />
-              <span>
-                Endpoints blindados con cifrado XOR dinámico (0% exposición estática) e intercepción de APIs para saltar bloqueos CORS.
+            <div className="mt-8 flex items-center gap-4 text-white font-mono text-sm border-t-4 border-white pt-6">
+              <ShieldCheck className="w-8 h-8 text-brutal-green shrink-0" />
+              <span className="uppercase font-bold tracking-tight">
+                ENDPOINTS BLINDADOS CON CIFRADO XOR DINÁMICO E INTERCEPCIÓN DE APIS PARA SALTAR BLOQUEOS CORS.
               </span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

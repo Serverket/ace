@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/badge/license-GPLv3-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20GNU%2FLinux-lightgrey)
 
-**🌍 Web App en Vivo:** [https://ace-panel.vercel.app](https://ace-panel.vercel.app)
+**🌍 Web App en Vivo:** [https://acecambio.pro](https://acecambio.pro)
 
 **ACE** es un widget de bandeja del sistema (System Tray) ultra-ligero y profesional para monitorear el precio del dólar en Venezuela en tiempo real. 
 

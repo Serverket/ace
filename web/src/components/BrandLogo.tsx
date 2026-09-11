@@ -5,35 +5,35 @@ interface BrandLogoProps {
 
 export const BrandLogo = ({ size = 'md', showSubtitle = true }: BrandLogoProps) => {
   const iconSizes = {
-    sm: 'w-7 h-7',
-    md: 'w-9 h-9',
-    lg: 'w-12 h-12',
+    sm: 'w-8 h-8',
+    md: 'w-12 h-12',
+    lg: 'w-16 h-16',
   };
 
   const textSizes = {
-    sm: 'text-lg',
-    md: 'text-2xl',
-    lg: 'text-3xl',
+    sm: 'text-2xl',
+    md: 'text-4xl',
+    lg: 'text-5xl',
   };
 
   return (
     <div className="flex items-center gap-3 select-none">
-      <div className={`relative ${iconSizes[size]} shrink-0 rounded-xl flex items-center justify-center p-0.5 shadow-md shadow-amber-900/10 border border-slate-700/50 group overflow-hidden`}>
+      <div className={`relative ${iconSizes[size]} shrink-0 flex items-center justify-center p-1 border-4 border-black bg-brutal-yellow shadow-brutal-sm group overflow-hidden`}>
         <img src="/logo.svg" alt="ACE Logo" className="w-full h-full object-contain" />
       </div>
 
       <div className="flex flex-col">
-        <div className="flex items-center gap-1.5 leading-none">
-          <span className={`font-extrabold tracking-tight text-slate-900 ${textSizes[size]}`}>
+        <div className="flex items-center gap-2 leading-none">
+          <span className={`font-black tracking-tighter text-black uppercase ${textSizes[size]}`}>
             ACE
           </span>
-          <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200/60">
+          <span className="text-[10px] sm:text-xs uppercase font-black tracking-widest px-2 py-0.5 bg-black text-brutal-green shadow-brutal-sm">
             {__APP_VERSION__}
           </span>
         </div>
         {showSubtitle && (
-          <span className="text-[11px] font-medium text-slate-500 tracking-normal mt-0.5">
-            A Cuánto Está
+          <span className="text-xs font-bold text-black uppercase tracking-wider mt-1 block w-fit border-b-2 border-black">
+            A CUÁNTO ESTÁ
           </span>
         )}
       </div>

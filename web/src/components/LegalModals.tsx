@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, FileText, X } from 'lucide-react';
 
 interface LegalModalProps {
@@ -25,105 +24,101 @@ export const LegalModal: React.FC<LegalModalProps> = ({ isOpen, onClose, type })
 
   const content = {
     privacy: {
-      title: 'Política de Privacidad',
-      icon: <Shield className="w-6 h-6 text-emerald-500" />,
+      title: 'POLÍTICA DE PRIVACIDAD',
+      icon: <Shield className="w-8 h-8 text-black" />,
+      theme: 'bg-brutal-green',
       body: (
-        <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
-          <p>
-            <strong>Cero Rastreo, Cero Telemetría.</strong> En ACE (A Cuánto Está), creemos que la privacidad es un derecho fundamental por defecto, no una característica adicional (opcional).
+        <div className="flex flex-col border-4 border-black bg-white text-base text-black font-bold uppercase leading-relaxed">
+          <p className="p-4 border-b-4 border-black bg-brutal-green text-lg font-black">
+            CERO RASTREO, CERO TELEMETRÍA. EN ACE, LA PRIVACIDAD ES UN DERECHO FUNDAMENTAL POR DEFECTO.
           </p>
-          <p>
-            <strong>1. Recopilación de Datos:</strong> No recopilamos, no almacenamos, ni transmitimos ningún tipo de información personal, identificable o métricas de uso (analíticas) hacia nuestros servidores ni a terceros. ACE funciona de manera totalmente autónoma.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2 group-hover:bg-white group-hover:text-black">1. RECOPILACIÓN DE DATOS</span> No recopilamos, no almacenamos, ni transmitimos información personal, identificable o métricas de uso. ACE funciona de manera totalmente autónoma.
           </p>
-          <p>
-            <strong>2. Conexiones a APIs:</strong> Las conexiones de red que realiza esta aplicación web o el cliente de escritorio se hacen exclusivamente desde tu dispositivo hacia las fuentes públicas de datos cambiarios (DolarAPI, Yadio, etc.) para consultar las tasas actuales. Serverket no actúa como intermediario en estas conexiones.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">2. CONEXIONES A APIs</span> Las conexiones de red se hacen exclusivamente desde tu dispositivo hacia fuentes públicas de datos (DolarAPI, Yadio, etc.). Serverket no actúa como intermediario.
           </p>
-          <p>
-            <strong>3. Cookies y Almacenamiento Local:</strong> No utilizamos cookies de rastreo ni de sesión. Cualquier preferencia guardada (como preferencias de tema o calculadora) se almacena única y exclusivamente en tu dispositivo (Local Storage) y jamás abandona tu navegador.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">3. LOCAL STORAGE</span> No utilizamos cookies de rastreo. Preferencias de la app se almacenan únicamente en el Local Storage y jamás abandonan tu equipo.
           </p>
-          <p>
-            <strong>4. Transparencia de Código Abierto:</strong> Nuestro compromiso es verificable. El código de ACE es 100% de código abierto (Open Source), lo que significa que cualquier persona puede auditar el software para confirmar la ausencia total de rastreadores.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">4. CÓDIGO ABIERTO</span> El código de ACE es 100% Open Source. Cualquiera puede auditar el software para confirmar la ausencia total de rastreadores.
+          </p>
+          <p className="p-4 hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">5. VERCEL</span> No conservamos archivos de registro (logs) de nuestra parte; sin embargo, utilizamos Vercel como plataforma de despliegue, la cual tiene su propia Política de Privacidad. Revísala en <a href="https://vercel.com/legal/privacy-policy#customers" target="_blank" rel="noopener noreferrer" className="underline bg-white text-black px-1 font-black">https://vercel.com/legal/privacy-policy#customers</a>.
           </p>
         </div>
       ),
     },
     tos: {
-      title: 'Términos de Servicio',
-      icon: <FileText className="w-6 h-6 text-amber-500" />,
+      title: 'TÉRMINOS DE SERVICIO',
+      icon: <FileText className="w-8 h-8 text-black" />,
+      theme: 'bg-brutal-yellow',
       body: (
-        <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
-          <p>
-            Al descargar, acceder o utilizar ACE, aceptas estos términos básicos, diseñados bajo la filosofía del software libre.
+        <div className="flex flex-col border-4 border-black bg-white text-base text-black font-bold uppercase leading-relaxed">
+          <p className="p-4 border-b-4 border-black bg-brutal-yellow text-lg font-black">
+            AL UTILIZAR ACE, ACEPTAS ESTOS TÉRMINOS BÁSICOS DISEÑADOS BAJO LA FILOSOFÍA DEL SOFTWARE LIBRE.
           </p>
-          <p>
-            <strong>1. Naturaleza del Servicio:</strong> ACE es una herramienta puramente informativa y de visualización. Los datos de las cotizaciones cambiarias provienen de fuentes externas (APIs públicas) y se presentan "tal cual" (AS IS). No garantizamos la absoluta exactitud o tiempo real de los datos suministrados por dichos terceros.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">1. NATURALEZA DEL SERVICIO</span> ACE es una herramienta puramente informativa. Los datos provienen de APIs públicas y se presentan "tal cual" (AS IS). No garantizamos la absoluta exactitud o tiempo real.
           </p>
-          <p>
-            <strong>2. Sin Consejos Financieros:</strong> La información proporcionada en ACE, incluyendo los cálculos en la pizarra o el simulador, no constituye bajo ningún concepto un consejo financiero, de inversión, legal o fiscal.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">2. SIN CONSEJOS FINANCIEROS</span> La información mostrada en ACE no constituye un consejo financiero, de inversión, legal o fiscal.
           </p>
-          <p>
-            <strong>3. Responsabilidad:</strong> El creador (Serverket) no se hace responsable por cualquier pérdida, daño o decisión que resulte del uso de la información mostrada por este software.
+          <p className="p-4 border-b-4 border-black hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">3. RESPONSABILIDAD</span> El creador (Serverket) no se hace responsable por cualquier pérdida, daño o decisión que resulte del uso de este software.
           </p>
-          <p>
-            <strong>4. Licencia de Uso (GPLv3):</strong> ACE se distribuye bajo la Licencia Pública General de GNU v3. Eres libre de usar, modificar y distribuir el código fuente, siempre y cuando se preserve la misma licencia y transparencia.
+          <p className="p-4 hover:bg-black hover:text-white transition-colors">
+            <span className="bg-black text-white px-2 py-1 mr-2">4. LICENCIA (GPLv3)</span> Eres libre de usar, modificar y distribuir el código fuente, preservando la misma licencia y transparencia.
           </p>
         </div>
       ),
     }
   };
 
-  const { title, icon, body } = content[type];
+  const { title, icon, body, theme } = content[type];
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 sm:px-6">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-        />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        className="absolute inset-0 bg-black/90"
+      />
 
-        {/* Modal Container */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ type: "spring", duration: 0.5 }}
-          className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
-            <div className="flex items-center gap-3">
+      {/* Modal Container */}
+      <div className={`relative w-full max-w-3xl bg-white border-8 border-black shadow-brutal-lg flex flex-col ${theme}`}>
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b-8 border-black bg-white">
+          <div className="flex items-center gap-4">
+            <div className={`p-2 border-4 border-black shadow-brutal-sm ${theme}`}>
               {icon}
-              <h3 className="text-lg font-bold text-slate-900">{title}</h3>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <h3 className="text-2xl sm:text-4xl font-black text-black tracking-tighter uppercase">{title}</h3>
           </div>
+          <button
+            onClick={onClose}
+            className="p-3 border-4 border-black bg-brutal-red text-white hover:bg-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-brutal-sm transition-all"
+          >
+            <X className="w-8 h-8" />
+          </button>
+        </div>
 
-          {/* Body */}
-          <div className="p-6 sm:p-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
-            {body}
-          </div>
+        {/* Body */}
+        <div className="p-0 sm:p-6 max-h-[60vh] overflow-y-auto bg-white border-b-8 border-black">
+          {body}
+        </div>
 
-          {/* Footer Action */}
-          <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button
-              onClick={onClose}
-              className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold transition-all active:scale-95"
-            >
-              Entendido
-            </button>
-          </div>
-        </motion.div>
+        {/* Footer Action */}
+        <div className="p-6 bg-white flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-8 py-4 border-4 border-black bg-black text-white text-xl font-black uppercase hover:bg-white hover:text-black shadow-brutal-sm hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+          >
+            ENTENDIDO
+          </button>
+        </div>
       </div>
-    </AnimatePresence>
+    </div>
   );
 };

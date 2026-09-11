@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/badge/license-GPLv3-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20GNU%2FLinux-lightgrey)
 
-**🌍 Live Web App:** [https://ace-panel.vercel.app](https://ace-panel.vercel.app)
+**🌍 Live Web App:** [https://acecambio.pro](https://acecambio.pro)
 
 **ACE** (A Cuánto Está) is an ultra-lightweight, professional system tray widget for real-time monitoring of Venezuelan exchange rates.
 
