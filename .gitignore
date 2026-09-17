@@ -33,6 +33,14 @@ dist/
 *.AppDir
 squashfs-root/
 
+# Node / Bun (workspace web/)
+node_modules/
+bun.lock
+bun.lockb
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
 # IDEs y Editores
 .vscode/
 .idea/

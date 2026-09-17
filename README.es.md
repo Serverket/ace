@@ -63,7 +63,7 @@ graph TD
 
 3. **Instalación en GNU/Linux (AppImage)**:
    - Descarga el archivo `.AppImage` desde la sección de Releases.
-   - Dale permisos de ejecución: `chmod +x ACE-v1.1.1-x86_64.AppImage`
+   - Dale permisos de ejecución: `chmod +x ACE-v1.2.0-x86_64.AppImage`
    - Haz doble clic para ejecutarlo.
    - *Nota*: Para que el ícono aparezca correctamente en la barra superior (GNOME/Ubuntu), debes tener instalado el paquete de sistema: `sudo apt install gir1.2-ayatanaappindicator3-0.1`
 

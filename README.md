@@ -65,7 +65,7 @@ graph TD
 
 3. **GNU/Linux Installation (AppImage)**:
    - Download the `.AppImage` file from the Releases section.
-   - Grant execution permissions: `chmod +x ACE-v1.1.1-x86_64.AppImage`
+   - Grant execution permissions: `chmod +x ACE-v1.2.0-x86_64.AppImage`
    - Double-click to run it.
    - *Note*: For the icon to render correctly in the top bar (GNOME/Ubuntu), you must have the following system package installed: `sudo apt install gir1.2-ayatanaappindicator3-0.1`
 
@@ -80,7 +80,7 @@ graph TD
 ## 📜 About & Attribution
 
 **Author**: [Serverket](https://serverket.dev)  
-**Version**: v1.1.1  
+**Version**: v1.2.0  
 **License**: [GNU General Public License v3.0 (GPLv3)](LICENSE).
 
 ### 🤝 Special Acknowledgements

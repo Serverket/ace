@@ -30,7 +30,12 @@ export default defineConfig({
         name: 'ACE Widget',
         short_name: 'ACE',
         description: 'A Cuanto Esta - Real-time Venezuelan exchange rates widget.',
+        lang: 'es',
+        display: 'standalone',
+        start_url: '/',
+        scope: '/',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
         icons: [
           {
             src: 'pwa-192x192.png',
