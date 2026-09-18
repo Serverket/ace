@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, Calculator, Download, Check, RefreshCw } from 'lucide-react';
+import { TrendingUp, Calculator, Download, RefreshCw } from 'lucide-react';
 import { usePwaInstall } from '../../hooks/usePwaInstall';
 import InstallSheet from './InstallSheet';
 
@@ -59,30 +59,24 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
             );
           })}
 
-          {/* Elevated Install FAB */}
-          <div className="relative w-24 shrink-0 flex items-start justify-center">
-            <button
-              onClick={handleInstallClick}
-              disabled={isInstalled || installing}
-              aria-label={isInstalled ? 'ACE ya está instalada' : 'Instalar ACE'}
-              className={`absolute -top-7 left-1/2 -translate-x-1/2 w-16 h-16 border-4 border-black flex flex-col items-center justify-center font-black uppercase shadow-brutal transition-all ${
-                isInstalled
-                  ? 'bg-brutal-green text-black'
-                  : 'bg-brutal-blue text-white hover:translate-y-1 hover:shadow-none'
-              } ${installing ? 'opacity-80' : ''}`}
-            >
-              {isInstalled ? (
-                <Check className="w-7 h-7" />
-              ) : installing ? (
-                <RefreshCw className="w-7 h-7 animate-spin" />
-              ) : (
-                <Download className="w-7 h-7" />
-              )}
-              <span className="text-[9px] leading-none mt-1">
-                {isInstalled ? 'LISTA' : 'INSTALAR'}
-              </span>
-            </button>
-          </div>
+          {/* Elevated Install FAB — only while the PWA is not installed */}
+          {!isInstalled && (
+            <div className="relative w-24 shrink-0 flex items-start justify-center">
+              <button
+                onClick={handleInstallClick}
+                disabled={installing}
+                aria-label="Instalar ACE"
+                className={`absolute -top-7 left-1/2 -translate-x-1/2 w-16 h-16 border-4 border-black flex flex-col items-center justify-center font-black uppercase shadow-brutal transition-all bg-brutal-blue text-white hover:translate-y-1 hover:shadow-none ${installing ? 'opacity-80' : ''}`}
+              >
+                {installing ? (
+                  <RefreshCw className="w-7 h-7 animate-spin" />
+                ) : (
+                  <Download className="w-7 h-7" />
+                )}
+                <span className="text-[9px] leading-none mt-1">INSTALAR</span>
+              </button>
+            </div>
+          )}
         </div>
       </nav>
 

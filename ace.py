@@ -23,7 +23,7 @@ except Exception as _import_err:
     _log_file.flush()
     sys.exit(1)
 
-__version__ = "v1.2.0"
+__version__ = "v1.3.0"
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.json')
 
@@ -196,7 +196,7 @@ def create_text_icon(value, source='bcv'):
 
 class AceApplet:
     """
-    Main class for the ACE Widget.
+    Main class for the ACE Cambio applet.
     Implements a hybrid architecture:
     - AyatanaAppIndicator3 for native integration with panel text on GNU/Linux.
     - pystray with dynamic text icon for Windows and macOS (visible without hover).

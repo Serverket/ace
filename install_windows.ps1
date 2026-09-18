@@ -66,7 +66,7 @@ Write-Host "[3/4] Generating launcher..." -ForegroundColor Cyan
 if (Test-Path $LogPath) { Remove-Item $LogPath -Force }
 
 $VbsContent = @"
-' ACE Widget Launcher
+' ACE Cambio Launcher
 ' Launches pythonw.exe silently (no console or window)
 Set oShell = CreateObject("WScript.Shell")
 oShell.CurrentDirectory = "$ScriptDir"
@@ -87,13 +87,13 @@ if (-not (Test-Path $StartupPath)) {
     New-Item -ItemType Directory -Path $StartupPath | Out-Null
 }
 
-foreach ($LinkPath in @("$DesktopPath\ACE Widget.lnk", "$StartupPath\ACE Widget.lnk")) {
+foreach ($LinkPath in @("$DesktopPath\ACE Cambio.lnk", "$StartupPath\ACE Cambio.lnk")) {
     $Link                  = $WshShell.CreateShortcut($LinkPath)
     $Link.TargetPath       = $WScript
     $Link.Arguments        = "`"$VbsPath`""
     $Link.WorkingDirectory = $ScriptDir
     $Link.WindowStyle      = 1
-    $Link.Description      = "ACE Widget (Venezuela Exchange Rates)"
+    $Link.Description      = "ACE Cambio (Venezuela Exchange Rates)"
     $Link.IconLocation     = "$ScriptDir\assets\logo.ico"
     $Link.Save()
 }

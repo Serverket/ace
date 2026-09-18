@@ -24,13 +24,55 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
+      injectRegister: false,
       includeAssets: ['favicon-32x32.png', 'logo.svg'],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts',
+              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/(ve\.dolarapi\.com|api\.yadio\.io)\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'rates-api',
+              expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 },
+              networkTimeoutSeconds: 10
+            }
+          },
+          {
+            urlPattern: /\/api\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 },
+              networkTimeoutSeconds: 10
+            }
+          },
+          {
+            urlPattern: /\.(?:png|jpe?g|svg|gif|webp)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'image-cache',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 }
+            }
+          }
+        ]
+      },
       manifest: {
-        name: 'ACE Widget',
-        short_name: 'ACE',
-        description: 'A Cuanto Esta - Real-time Venezuelan exchange rates widget.',
+        id: '/',
+        name: 'ACE Cambio',
+        short_name: 'ACE Cambio',
+        description: 'A Cuánto Está — tasas de cambio venezolanas en tiempo real.',
         lang: 'es',
+        categories: ['finance', 'utilities'],
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -48,10 +90,21 @@ export default defineConfig({
             type: 'image/png'
           },
           {
+            src: 'logo-maskable-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
             src: 'logo-maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'
+          },
+          {
+            src: 'logo.svg',
+            sizes: 'any',
+            type: 'image/svg+xml'
           }
         ]
       }

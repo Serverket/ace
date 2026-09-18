@@ -179,7 +179,7 @@ export const PlatformPreview: React.FC = () => {
             {showContextMenu && (
               <div className="absolute z-30 top-14 right-8 w-64 bg-slate-900/95 backdrop-blur-xl border border-slate-700 rounded-xl shadow-2xl p-1.5 text-slate-200 text-xs font-medium animate-fade-in">
                 <div className="px-3 py-2 border-b border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-                  <span>ACE Widget {__APP_VERSION__}</span>
+                  <span>ACE Cambio {__APP_VERSION__}</span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                 </div>
                 <div className="py-1">

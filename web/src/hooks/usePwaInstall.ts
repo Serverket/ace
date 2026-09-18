@@ -1,4 +1,5 @@
 import { useCallback, useSyncExternalStore } from 'react';
+import { dismissInstallPermanently } from '../lib/pwaDismiss';
 
 // Not yet in lib.dom — Chromium fires this when the PWA is installable
 export interface BeforeInstallPromptEvent extends Event {
@@ -52,6 +53,7 @@ function attachGlobalListeners() {
   window.addEventListener('appinstalled', () => {
     installed = true;
     deferredPrompt = null;
+    dismissInstallPermanently();
     notify();
   });
 }
@@ -85,7 +87,8 @@ export function usePwaInstall() {
       notify();
       try {
         await promptEvent.prompt();
-        await promptEvent.userChoice;
+        const { outcome } = await promptEvent.userChoice;
+        if (outcome === 'accepted') dismissInstallPermanently();
       } catch {
         // NotAllowedError et al. — fall through to the instructions sheet
         return isIOS ? 'ios-fallback' : 'unavailable';

@@ -54,6 +54,12 @@ echo "📦 Calling build_appimage.sh..."
 chmod +x scripts/build_appimage.sh
 ./scripts/build_appimage.sh "$VERSION"
 
+# Persist release metadata for the PWA update banner
+echo "📝 Writing release-info.json..."
+printf '{\n  "version": "%s",\n  "note": "%s",\n  "date": "%s"\n}\n' \
+  "$VERSION" "${NOTE:-No note provided}" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  > web/public/release-info.json
+
 # Build the Web App PWA
 echo "🌐 Building Web App for PWA deployment..."
 cd web
