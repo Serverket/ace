@@ -3,7 +3,7 @@ import { ShieldCheck, Calculator, ArrowRightLeft, Copy, Check } from 'lucide-rea
 
 interface ConverterTerminalProps {
   bcvRate?: number | null;
-  paraleloRate?: number | null;
+  eurRate?: number | null;
   binanceRate?: number | null;
 }
 
@@ -76,7 +76,7 @@ const ResultBox: React.FC<ResultBoxProps> = ({
 
 export const ConverterTerminal: React.FC<ConverterTerminalProps> = ({
   bcvRate,
-  paraleloRate,
+  eurRate,
   binanceRate,
 }) => {
   // Calculator State
@@ -92,11 +92,11 @@ export const ConverterTerminal: React.FC<ConverterTerminalProps> = ({
 
   const formatBs = (rate: number) =>
     `${(calcAmount * rate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`;
-  const formatUsd = (rate: number) =>
-    `$${(calcAmount / rate).toFixed(2)}`;
+  const formatDivisa = (rate: number, symbol: string) =>
+    `${symbol}${(calcAmount / rate).toFixed(2)}`;
 
-  const resultFor = (rate?: number | null) =>
-    rate ? (calcDirection === 'usdToVes' ? formatBs(rate) : formatUsd(rate)) : null;
+  const resultFor = (rate: number | null | undefined, symbol = '$') =>
+    rate ? (calcDirection === 'usdToVes' ? formatBs(rate) : formatDivisa(rate, symbol)) : null;
 
   return (
     <div
@@ -168,7 +168,7 @@ export const ConverterTerminal: React.FC<ConverterTerminalProps> = ({
         </div>
 
         {/* Results Across Rates Comparison */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border-4 border-white bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-4 border-white bg-white">
           <ResultBox
             id="bcv"
             label="BCV OFICIAL"
@@ -181,13 +181,13 @@ export const ConverterTerminal: React.FC<ConverterTerminalProps> = ({
             onCopy={handleCopy}
           />
           <ResultBox
-            id="paralelo"
-            label="PARALELO"
-            dotColor="bg-brutal-green"
-            badgeClass="text-black bg-brutal-green"
-            amountClass="text-brutal-green"
-            rate={paraleloRate}
-            result={resultFor(paraleloRate)}
+            id="euro"
+            label="EURO"
+            dotColor="bg-brutal-red"
+            badgeClass="text-white bg-brutal-red"
+            amountClass="text-brutal-red"
+            rate={eurRate}
+            result={resultFor(eurRate, '€')}
             copiedId={copiedId}
             onCopy={handleCopy}
           />

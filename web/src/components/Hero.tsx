@@ -34,7 +34,7 @@ export const HeroSection = ({ onAppCta }: HeroSectionProps) => {
 
         {/* Subtitle */}
         <p className="text-xl sm:text-3xl text-black max-w-3xl mx-auto mb-10 font-bold uppercase border-l-8 border-brutal-blue pl-4 text-left">
-          Visualiza en tiempo real las cotizaciones de BCV Oficial, Paralelo y Binance P2P directamente integrado en Windows, macOS y GNU/Linux.
+          Visualiza en tiempo real las cotizaciones de BCV Oficial, Euro y Binance P2P directamente integrado en Windows, macOS y GNU/Linux.
         </p>
 
         {/* Core Feature Badges Strip */}

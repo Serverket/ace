@@ -23,7 +23,7 @@ except Exception as _import_err:
     _log_file.flush()
     sys.exit(1)
 
-__version__ = "v1.3.0"
+__version__ = "v1.4.0"
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.json')
 

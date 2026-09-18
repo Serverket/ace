@@ -34,15 +34,15 @@ const INITIAL_RATES: RateItem[] = [
     value: null,
   },
   {
-    id: 'paralelo',
-    name: 'Dólar Paralelo',
-    shortName: 'Paralelo $',
-    sourceDesc: 'Promedio Mercado No Oficial',
-    badgeColor: 'bg-gradient-to-br from-amber-500 via-orange-500 to-red-500',
-    glowColor: 'shadow-orange-500/10',
-    borderAccent: 'border-orange-500/20',
-    symbol: '$',
-    currencyUnit: 'USD',
+    id: 'euro',
+    name: 'BCV Euro',
+    shortName: 'BCV €',
+    sourceDesc: 'Banco Central de Venezuela Oficial',
+    badgeColor: 'bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600',
+    glowColor: 'shadow-rose-500/10',
+    borderAccent: 'border-rose-500/20',
+    symbol: '€',
+    currencyUnit: 'EUR',
     value: null,
   },
   {
@@ -55,18 +55,6 @@ const INITIAL_RATES: RateItem[] = [
     borderAccent: 'border-yellow-500/20',
     symbol: '$',
     currencyUnit: 'USDT',
-    value: null,
-  },
-  {
-    id: 'euro',
-    name: 'BCV Euro',
-    shortName: 'BCV €',
-    sourceDesc: 'Banco Central de Venezuela Oficial',
-    badgeColor: 'bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600',
-    glowColor: 'shadow-rose-500/10',
-    borderAccent: 'border-rose-500/20',
-    symbol: '€',
-    currencyUnit: 'EUR',
     value: null,
   },
 ];
@@ -97,13 +85,11 @@ export function useRates() {
       ]);
 
       const bcv = resDolares.find((r: any) => r.fuente === 'oficial')?.promedio || null;
-      const paralelo = resDolares.find((r: any) => r.fuente === 'paralelo')?.promedio || null;
       const euro = resEuros?.promedio || null;
 
-      // Priority: our Binance proxy (top-10 avg, same as ace.py) -> Yadio -> paralelo estimate
+      // Priority: our Binance proxy (top-10 avg, same as ace.py) -> Yadio
       let binance = resBinance?.rate || resYadio?.VES?.rate_p2p || null;
       if (binance) binance = Number(binance.toFixed(2));
-      if (!binance && paralelo) binance = Number((paralelo * 0.985).toFixed(2));
 
       setRates([
         {
@@ -119,16 +105,16 @@ export function useRates() {
           value: bcv,
         },
         {
-          id: 'paralelo',
-          name: 'Dólar Paralelo',
-          shortName: 'Paralelo $',
-          sourceDesc: 'Promedio Mercado Cambiario',
-          badgeColor: 'bg-gradient-to-br from-amber-500 via-orange-500 to-red-500',
-          glowColor: 'shadow-orange-500/20',
-          borderAccent: 'hover:border-orange-400',
-          symbol: '$',
-          currencyUnit: 'USD',
-          value: paralelo,
+          id: 'euro',
+          name: 'BCV Euro',
+          shortName: 'BCV €',
+          sourceDesc: 'Tasa Oficial Banco Central',
+          badgeColor: 'bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600',
+          glowColor: 'shadow-rose-500/20',
+          borderAccent: 'hover:border-rose-400',
+          symbol: '€',
+          currencyUnit: 'EUR',
+          value: euro,
         },
         {
           id: 'binance',
@@ -141,18 +127,6 @@ export function useRates() {
           symbol: '$',
           currencyUnit: 'USDT',
           value: binance,
-        },
-        {
-          id: 'euro',
-          name: 'BCV Euro',
-          shortName: 'BCV €',
-          sourceDesc: 'Tasa Oficial Banco Central',
-          badgeColor: 'bg-gradient-to-br from-orange-400 via-rose-500 to-pink-600',
-          glowColor: 'shadow-rose-500/20',
-          borderAccent: 'hover:border-rose-400',
-          symbol: '€',
-          currencyUnit: 'EUR',
-          value: euro,
         },
       ]);
 
@@ -191,20 +165,21 @@ export function useRates() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // Calculate Brecha Cambiaria (Spread) between Paralelo and BCV
+  // Calculate Brecha Cambiaria (Spread) between Binance P2P and BCV
   const bcvRate = rates.find((r) => r.id === 'bcv')?.value;
-  const paraleloRate = rates.find((r) => r.id === 'paralelo')?.value;
+  const eurRate = rates.find((r) => r.id === 'euro')?.value;
   const binanceRate = rates.find((r) => r.id === 'binance')?.value;
 
   const spreadData = useMemo(() => {
-    if (!bcvRate || !paraleloRate) return null;
-    const diffBs = paraleloRate - bcvRate;
+    if (!bcvRate || !binanceRate) return null;
+    const diffBs = binanceRate - bcvRate;
     const diffPercent = (diffBs / bcvRate) * 100;
+    const signed = (n: number, dec: number) => (n >= 0 ? '+' : '') + n.toFixed(dec);
     return {
-      diffBs: diffBs.toFixed(2),
-      diffPercent: diffPercent.toFixed(1),
+      diffBs: signed(diffBs, 2),
+      diffPercent: signed(diffPercent, 1),
     };
-  }, [bcvRate, paraleloRate]);
+  }, [bcvRate, binanceRate]);
 
   return {
     rates,
@@ -216,7 +191,7 @@ export function useRates() {
     handleCopyRate,
     spreadData,
     bcvRate,
-    paraleloRate,
+    eurRate,
     binanceRate,
   };
 }

@@ -33,29 +33,28 @@ export const RatesBoard: React.FC<RatesBoardProps> = ({
                 BRECHA CAMBIARIA
               </h4>
               <p className="text-sm font-bold text-black uppercase">
-                Spread Paralelo vs BCV
+                Spread P2P vs BCV
               </p>
             </div>
           </div>
           <div className="flex items-center gap-4 font-mono">
             <span className="px-4 py-2 bg-white border-4 border-black text-black font-black text-lg">
-              Δ +{spreadData.diffBs} Bs
+              Δ {spreadData.diffBs} Bs
             </span>
             <span className="px-4 py-2 bg-brutal-green border-4 border-black text-black font-black text-lg shadow-brutal-sm">
-              +{spreadData.diffPercent}%
+              {spreadData.diffPercent}%
             </span>
           </div>
         </div>
       )}
 
-      {/* Live Rates 4 Cards Grid - No gaps style via thick borders */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border-4 border-black bg-black">
+      {/* Live Rates 3 Cards Grid - No gaps style via thick borders */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-4 border-black bg-black">
         {rates.map((rate) => {
           const isCopied = copiedId === rate.id;
           // Map original gradient colors to brutalist solids for the badge if desired, or just use black/white
           let brutalColor = 'bg-black';
           if (rate.id === 'bcv') brutalColor = 'bg-brutal-blue text-white';
-          if (rate.id === 'paralelo') brutalColor = 'bg-brutal-green text-black';
           if (rate.id === 'binance') brutalColor = 'bg-brutal-yellow text-black';
           if (rate.id === 'euro') brutalColor = 'bg-brutal-red text-white';
 

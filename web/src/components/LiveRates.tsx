@@ -15,7 +15,7 @@ export const LiveRates: React.FC = () => {
     handleCopyRate,
     spreadData,
     bcvRate,
-    paraleloRate,
+    eurRate,
     binanceRate,
   } = useRates();
 
@@ -68,7 +68,7 @@ export const LiveRates: React.FC = () => {
         {/* Integrated Quick Currency Calculator - Terminal Brutalist Style */}
         <ConverterTerminal
           bcvRate={bcvRate}
-          paraleloRate={paraleloRate}
+          eurRate={eurRate}
           binanceRate={binanceRate}
         />
       </div>

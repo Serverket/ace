@@ -28,7 +28,7 @@ export const MobileApp: React.FC = () => {
     handleCopyRate,
     spreadData,
     bcvRate,
-    paraleloRate,
+    eurRate,
     binanceRate,
   } = useRates();
 
@@ -82,7 +82,7 @@ export const MobileApp: React.FC = () => {
           <div className="px-4 py-6">
             <ConverterTerminal
               bcvRate={bcvRate}
-              paraleloRate={paraleloRate}
+              eurRate={eurRate}
               binanceRate={binanceRate}
             />
           </div>

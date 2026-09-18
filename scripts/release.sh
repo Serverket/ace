@@ -77,4 +77,4 @@ else
 fi
 
 echo "✅ Successfully created local tag $VERSION."
-echo "💡 To push this release, run: git push origin main --tags"
+echo "💡 To push this release, run: git push origin $(git branch --show-current) --tags"
