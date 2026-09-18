@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Monitor, Apple, Terminal, MousePointerClick, RefreshCw, Copy, Check, Pin, BellRing } from 'lucide-react';
 
 type OS = 'linux' | 'windows' | 'macos';
-type SourceKey = 'bcv' | 'paralelo' | 'binance' | 'euro';
+type SourceKey = 'bcv' | 'binance' | 'euro';
 
 interface SourceRateInfo {
   label: string;
@@ -23,15 +23,6 @@ const SAMPLE_RATES: Record<SourceKey, SourceRateInfo> = {
     bgColor: 'bg-[#0038a8]',
     textColor: 'text-blue-700',
     tag: 'OFICIAL'
-  },
-  paralelo: {
-    label: 'Paralelo $',
-    name: 'Promedio Mercado Paralelo',
-    priceStr: '52,40',
-    currency: 'Bs',
-    bgColor: 'bg-[#059669]',
-    textColor: 'text-emerald-700',
-    tag: 'PARALELO'
   },
   binance: {
     label: 'Binance $',
@@ -190,13 +181,6 @@ export const PlatformPreview: React.FC = () => {
                       BCV $
                     </span>
                     <span className="font-mono font-bold text-slate-100">43,50 Bs</span>
-                  </div>
-                  <div className="px-3 py-1 flex items-center justify-between hover:bg-slate-800/80 rounded cursor-pointer">
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#059669]"></span>
-                      Paralelo $
-                    </span>
-                    <span className="font-mono font-bold text-slate-100">52,40 Bs</span>
                   </div>
                   <div className="px-3 py-1 flex items-center justify-between hover:bg-slate-800/80 rounded cursor-pointer">
                     <span className="flex items-center gap-2">

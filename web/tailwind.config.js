@@ -12,7 +12,6 @@ export default {
       },
       colors: {
         'ace-bcv': '#0038a8',
-        'ace-paralelo': '#059669',
         'ace-binance': '#d97706',
         'ace-euro': '#4338ca',
         'brutal-yellow': '#fff000',

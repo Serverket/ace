@@ -23,14 +23,13 @@ except Exception as _import_err:
     _log_file.flush()
     sys.exit(1)
 
-__version__ = "v1.4.0"
+__version__ = "v1.5.0"
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.json')
 
 # Human-readable names for each source (UI stays in Spanish)
 SOURCE_NAMES = {
     'bcv':      'BCV $',
-    'paralelo': 'Paralelo $',
     'binance':  'Binance $',
     'euro_bcv': 'BCV €',
 }
@@ -38,7 +37,6 @@ SOURCE_NAMES = {
 # Background color for the text icon by source
 _SOURCE_COLORS = {
     'bcv':      (0,   56,  168),   # Venezuelan Blue
-    'paralelo': (25,  120,  25),   # Lettuce Green
     'binance':  (180, 130,  10),   # Binance Gold (darker)
     'euro_bcv': (0,   51,  153),   # EU Blue
 }
@@ -88,7 +86,6 @@ def create_image(source='bcv', save_path=None):
     """
     Generates a vector icon in memory (PIL Image) depending on the source.
     - 'bcv'     : Venezuelan flag (tricolor).
-    - 'paralelo': Lettuce (symbol for Venezuelan parallel dollar).
     - 'binance' : Stylized Binance logo in gold.
     - 'euro_bcv': European Union flag (12 gold stars on blue).
 
@@ -118,26 +115,6 @@ def create_image(source='bcv', save_path=None):
             sx = 32 + ring_r * math.cos(angle)
             sy = 32 + ring_r * math.sin(angle)
             _draw_star(dc, sx, sy, r_out=4.5, r_in=1.8, fill=EU_GOLD)
-
-    elif source == 'paralelo':
-        # --- Lettuce: symbol for Venezuelan parallel dollar ---
-        # Outer shadow
-        dc.ellipse((5, 8, 59, 57), fill=(15, 80, 15))
-        # 6 outer lobes (large leaves)
-        for i in range(6):
-            a  = math.radians(i * 60)
-            lx = 32 + 13 * math.cos(a)
-            ly = 32 + 11 * math.sin(a)
-            dc.ellipse((lx - 14, ly - 13, lx + 14, ly + 13), fill=(40, 155, 40))
-        # 6 inner lobes (small leaves, rotated 30°)
-        for i in range(6):
-            a  = math.radians(i * 60 + 30)
-            lx = 32 + 9 * math.cos(a)
-            ly = 32 + 9 * math.sin(a)
-            dc.ellipse((lx - 10, ly - 9, lx + 10, ly + 9), fill=(70, 190, 55))
-        # Central heart (lighter)
-        dc.ellipse((21, 21, 43, 43), fill=(110, 220, 75))
-        dc.ellipse((27, 27, 37, 37), fill=(165, 242, 110))
 
     else:
         # --- BCV: Venezuelan flag (tricolor) ---
@@ -203,8 +180,8 @@ class AceApplet:
     """
     def __init__(self):
         self.config       = self.load_config()
-        self.prices       = {'bcv': None, 'paralelo': None, 'binance': None, 'euro_bcv': None}
-        self.last_notified = {'bcv': None, 'paralelo': None, 'binance': None, 'euro_bcv': None}
+        self.prices       = {'bcv': None, 'binance': None, 'euro_bcv': None}
+        self.last_notified = {'bcv': None, 'binance': None, 'euro_bcv': None}
         self.running      = True
         self.is_linux     = sys.platform.startswith('linux')
         self.tmp_icon     = "/tmp/ace_icon.png"
@@ -253,6 +230,9 @@ class AceApplet:
                     default_config.update(config)
             except Exception:
                 pass
+        # Migrate removed sources (e.g. 'paralelo' dropped in v1.4.0)
+        if default_config.get('primary') not in SOURCE_NAMES:
+            default_config['primary'] = 'bcv'
         return default_config
 
     def save_config(self):
@@ -285,9 +265,6 @@ class AceApplet:
             mk(lambda _: self.get_menu_label('bcv'),
                lambda: self.set_primary('bcv'),
                radio=True, checked=lambda _: self.config.get('primary') == 'bcv'),
-            mk(lambda _: self.get_menu_label('paralelo'),
-               lambda: self.set_primary('paralelo'),
-               radio=True, checked=lambda _: self.config.get('primary') == 'paralelo'),
             mk(lambda _: self.get_menu_label('binance'),
                lambda: self.set_primary('binance'),
                radio=True, checked=lambda _: self.config.get('primary') == 'binance'),
@@ -302,7 +279,7 @@ class AceApplet:
 
     def rebuild_linux_menu(self):
         menu = self.Gtk.Menu()
-        for source in ['bcv', 'paralelo', 'binance', 'euro_bcv']:
+        for source in ['bcv', 'binance', 'euro_bcv']:
             it = self.Gtk.MenuItem(label=self.get_menu_label(source))
             it.connect('activate', lambda w, s=source: self.set_primary(s))
             menu.append(it)
@@ -379,9 +356,9 @@ class AceApplet:
 
     def fetch_dolarapi(self):
         """
-        Fetches USD BCV and Parallel from DolarAPI, and Euro BCV from its own endpoint.
+        Fetches USD BCV from DolarAPI, and Euro BCV from its own endpoint.
         """
-        # --- USD (BCV + Paralelo) ---
+        # --- USD (BCV) ---
         try:
             req = urllib.request.Request(
                 self.config['api_url'],
@@ -393,9 +370,6 @@ class AceApplet:
                     if rate.get('fuente') == 'oficial':
                         self.prices['bcv'] = rate.get('promedio')
                         self.check_changes_and_notify('bcv')
-                    elif rate.get('fuente') == 'paralelo':
-                        self.prices['paralelo'] = rate.get('promedio')
-                        self.check_changes_and_notify('paralelo')
         except Exception as e:
             print("Error dolarapi (USD):", e)
 

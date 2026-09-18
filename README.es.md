@@ -21,11 +21,10 @@ Soporta múltiples fuentes de datos y funciona de manera nativa y transparente e
 - **Múltiples Fuentes de Mercado**: 
   - Banco Central de Venezuela — Dólar BCV (`BCV $`).
   - Banco Central de Venezuela — Euro BCV (`BCV €`).
-  - Promedio Paralelo (`Paralelo $`).
   - Binance P2P — Promedio en tiempo real de los mejores 10 comerciantes de venta USDT/VES.
 - **Favorito Configurable**: Haz clic en cualquier fuente para fijarla como principal. La preferencia se guarda automáticamente.
 - **Temporizadores Asíncronos Desacoplados**: 
-  - BCV (Dólar + Euro) y Paralelo se actualizan cada 30 min.
+  - BCV (Dólar + Euro) se actualizan cada 30 min.
   - Binance se actualiza cada 10 min (mercado altamente volátil).
 - **Notificaciones de Escritorio**: Alertas nativas instantáneas si cualquier mercado sufre fluctuaciones.
 
@@ -63,7 +62,7 @@ graph TD
 
 3. **Instalación en GNU/Linux (AppImage)**:
    - Descarga el archivo `.AppImage` desde la sección de Releases.
-   - Dale permisos de ejecución: `chmod +x ACE-v1.4.0-x86_64.AppImage`
+   - Dale permisos de ejecución: `chmod +x ACE-v1.5.0-x86_64.AppImage`
    - Haz doble clic para ejecutarlo.
    - *Nota*: Para que el ícono aparezca correctamente en la barra superior (GNOME/Ubuntu), debes tener instalado el paquete de sistema: `sudo apt install gir1.2-ayatanaappindicator3-0.1`
 

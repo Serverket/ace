@@ -23,11 +23,10 @@ It supports multiple data sources and runs natively and seamlessly on **Windows,
 - **Multiple Market Sources**: 
   - Central Bank of Venezuela — Official USD (`BCV $`).
   - Central Bank of Venezuela — Official EUR (`BCV €`).
-  - Parallel Market Average (`Paralelo $`).
   - Binance P2P — Real-time average of the top 10 USDT/VES sell merchants.
 - **Configurable Favorite**: Click any source to set it as your primary pinned rate. The preference is automatically saved.
 - **Decoupled Asynchronous Timers**: 
-  - BCV (USD + EUR) and Parallel rates update every 30 minutes.
+  - BCV (USD + EUR) rates update every 30 minutes.
   - Binance updates every 10 minutes (highly volatile market).
 - **Desktop Notifications**: Instant native alerts if any market experiences fluctuations.
 
@@ -65,7 +64,7 @@ graph TD
 
 3. **GNU/Linux Installation (AppImage)**:
    - Download the `.AppImage` file from the Releases section.
-   - Grant execution permissions: `chmod +x ACE-v1.4.0-x86_64.AppImage`
+   - Grant execution permissions: `chmod +x ACE-v1.5.0-x86_64.AppImage`
    - Double-click to run it.
    - *Note*: For the icon to render correctly in the top bar (GNOME/Ubuntu), you must have the following system package installed: `sudo apt install gir1.2-ayatanaappindicator3-0.1`
 
@@ -80,7 +79,7 @@ graph TD
 ## 📜 About & Attribution
 
 **Author**: [Serverket](https://serverket.dev)  
-**Version**: v1.4.0  
+**Version**: v1.5.0  
 **License**: [GNU General Public License v3.0 (GPLv3)](LICENSE).
 
 ### 🤝 Special Acknowledgements
