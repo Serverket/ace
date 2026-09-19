@@ -27,6 +27,7 @@ export const MobileApp: React.FC = () => {
     formatPrice,
     handleCopyRate,
     spreadData,
+    weekendTag,
     bcvRate,
     eurRate,
     binanceRate,
@@ -72,6 +73,7 @@ export const MobileApp: React.FC = () => {
               refreshing={refreshing}
               copiedId={copiedId}
               spreadData={spreadData}
+              weekendTag={weekendTag}
               formatPrice={formatPrice}
               onCopyRate={handleCopyRate}
             />
@@ -84,6 +86,7 @@ export const MobileApp: React.FC = () => {
               bcvRate={bcvRate}
               eurRate={eurRate}
               binanceRate={binanceRate}
+              weekendTag={weekendTag}
             />
           </div>
         </div>

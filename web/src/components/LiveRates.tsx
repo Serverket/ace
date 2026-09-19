@@ -14,6 +14,7 @@ export const LiveRates: React.FC = () => {
     formatPrice,
     handleCopyRate,
     spreadData,
+    weekendTag,
     bcvRate,
     eurRate,
     binanceRate,
@@ -60,6 +61,7 @@ export const LiveRates: React.FC = () => {
             refreshing={refreshing}
             copiedId={copiedId}
             spreadData={spreadData}
+            weekendTag={weekendTag}
             formatPrice={formatPrice}
             onCopyRate={handleCopyRate}
           />
@@ -70,6 +72,7 @@ export const LiveRates: React.FC = () => {
           bcvRate={bcvRate}
           eurRate={eurRate}
           binanceRate={binanceRate}
+          weekendTag={weekendTag}
         />
       </div>
     </section>

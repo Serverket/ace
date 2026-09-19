@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { _XOR_KEY, decodeX } from '../lib/cipher';
+import { bcvWeekendTag } from '../lib/bcvWeekend';
 
 // Obfuscated endpoints (XOR arrays) to guarantee 0 static string exposure
 const _E1 = [59,71,6,6,64,72,68,28,2,36,109,33,48,94,81,64,87,81,58,29,17,25,94,93,29,2,91,37,44,41,62,64,85,65];
@@ -18,6 +19,7 @@ export interface RateItem {
   currencyUnit: string;
   value: number | null;
   change24h?: string;
+  rateDate?: string;
 }
 
 const INITIAL_RATES: RateItem[] = [
@@ -64,6 +66,14 @@ export function useRates() {
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [rates, setRates] = useState<RateItem[]>(INITIAL_RATES);
+  // Weekend window (Sat 00:00 → Mon 00:00 VET): BCV $/€ show Monday's rate.
+  // 60s tick lets the tag appear/disappear across midnight without reload.
+  const [weekendTag, setWeekendTag] = useState<string | null>(() => bcvWeekendTag());
+
+  useEffect(() => {
+    const tick = window.setInterval(() => setWeekendTag(bcvWeekendTag()), 60_000);
+    return () => window.clearInterval(tick);
+  }, []);
 
   const fetchRates = async () => {
     setRefreshing(true);
@@ -84,7 +94,8 @@ export function useRates() {
           .catch(() => null),
       ]);
 
-      const bcv = resDolares.find((r: any) => r.fuente === 'oficial')?.promedio || null;
+      const bcvEntry = resDolares.find((r: any) => r.fuente === 'oficial');
+      const bcv = bcvEntry?.promedio || null;
       const euro = resEuros?.promedio || null;
 
       // Priority: our Binance proxy (top-10 avg, same as ace.py) -> Yadio
@@ -103,6 +114,7 @@ export function useRates() {
           symbol: '$',
           currencyUnit: 'USD',
           value: bcv,
+          rateDate: bcvEntry?.fechaActualizacion,
         },
         {
           id: 'euro',
@@ -115,6 +127,7 @@ export function useRates() {
           symbol: '€',
           currencyUnit: 'EUR',
           value: euro,
+          rateDate: resEuros?.fechaActualizacion,
         },
         {
           id: 'binance',
@@ -190,6 +203,7 @@ export function useRates() {
     formatPrice,
     handleCopyRate,
     spreadData,
+    weekendTag,
     bcvRate,
     eurRate,
     binanceRate,

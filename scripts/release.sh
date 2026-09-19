@@ -49,6 +49,11 @@ SEMVER="${VERSION#v}"
 sed -i -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${SEMVER}\"/g" web/package.json
 sed -i -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"${SEMVER}\"/g" package.json
 
+# Sanity-check the build environment: a missing venv dep produces a
+# silently broken AppImage (this happened with plyer → crash on import).
+echo "🔍 Syncing build venv with requirements.txt..."
+venv/bin/pip install -r requirements.txt -q
+
 # Build the AppImage (this will generate the binary and take a moment)
 echo "📦 Calling build_appimage.sh..."
 chmod +x scripts/build_appimage.sh

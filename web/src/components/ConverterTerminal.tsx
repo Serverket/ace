@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Calculator, ArrowRightLeft, Copy, Check } from 'lucide-react';
+import { ShieldCheck, Calculator, ArrowRightLeft, Copy, Check, CalendarDays } from 'lucide-react';
 
 interface ConverterTerminalProps {
   bcvRate?: number | null;
   eurRate?: number | null;
   binanceRate?: number | null;
+  weekendTag?: string | null;
 }
 
 interface ResultBoxProps {
@@ -78,6 +79,7 @@ export const ConverterTerminal: React.FC<ConverterTerminalProps> = ({
   bcvRate,
   eurRate,
   binanceRate,
+  weekendTag,
 }) => {
   // Calculator State
   const [calcAmount, setCalcAmount] = useState<number>(100);
@@ -203,6 +205,16 @@ export const ConverterTerminal: React.FC<ConverterTerminalProps> = ({
             onCopy={handleCopy}
           />
         </div>
+
+        {/* Weekend notice: BCV rates shown are the ones effective Monday */}
+        {weekendTag && (
+          <div className="mt-6 flex items-center gap-3 text-white font-mono text-xs uppercase">
+            <CalendarDays className="w-4 h-4 text-brutal-yellow shrink-0" />
+            <span>
+              Tasas BCV $/€ vigentes para el <span className="text-brutal-yellow font-black">{weekendTag}</span>
+            </span>
+          </div>
+        )}
 
         {/* Anti Scraping Notice */}
         <div className="mt-8 flex items-center gap-4 text-white font-mono text-sm border-t-4 border-white pt-6">

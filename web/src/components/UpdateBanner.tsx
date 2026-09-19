@@ -11,11 +11,22 @@ interface ReleaseInfo {
  * Update banner: fires when the new service worker is waiting
  * (registerType: 'prompt'). Brutalist styling per project palette.
  */
+// Deduped so HMR/remounts don't stack intervals
+let updateInterval: number | undefined;
+
 export const UpdateBanner: React.FC = () => {
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
-  } = useRegisterSW();
+  } = useRegisterSW({
+    // Installed PWAs left open for days only check for SW updates on
+    // navigation — poll hourly so needRefresh fires in-session.
+    onRegisteredSW(_, r) {
+      if (r && !updateInterval) {
+        updateInterval = window.setInterval(() => r.update(), 60 * 60 * 1000);
+      }
+    },
+  });
   const [release, setRelease] = useState<ReleaseInfo | null>(null);
 
   useEffect(() => {

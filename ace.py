@@ -6,6 +6,7 @@ import threading
 import traceback
 import math
 import urllib.request
+from datetime import datetime, timezone, timedelta
 
 # --- File Logging (essential for pythonw.exe which has no console) ---
 _LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ace_error.log')
@@ -23,7 +24,7 @@ except Exception as _import_err:
     _log_file.flush()
     sys.exit(1)
 
-__version__ = "v1.5.0"
+__version__ = "v1.6.0"
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.json')
 
@@ -40,6 +41,29 @@ _SOURCE_COLORS = {
     'binance':  (180, 130,  10),   # Binance Gold (darker)
     'euro_bcv': (0,   51,  153),   # EU Blue
 }
+
+# Venezuela keeps a fixed UTC-4 offset (no DST since 2016) — a constant
+# offset avoids depending on tzdata inside the PyInstaller bundle.
+_VET = timezone(timedelta(hours=-4))
+
+
+def _vet_now():
+    """Current civil time in Venezuela."""
+    return datetime.now(_VET)
+
+
+def is_bcv_weekend(now=None):
+    """Sat 00:00 → Mon 00:00 VET: BCV publishes the rate effective for Monday."""
+    now = now or _vet_now()
+    return now.weekday() in (5, 6)
+
+
+def next_monday_label(now=None):
+    """'dd/mm' of the upcoming Monday in VET."""
+    now = now or _vet_now()
+    ahead = (7 - now.weekday()) % 7 or 7
+    monday = now + timedelta(days=ahead)
+    return monday.strftime('%d/%m')
 
 
 def _draw_star(dc, cx, cy, r_out, r_in, fill):
@@ -182,6 +206,7 @@ class AceApplet:
         self.config       = self.load_config()
         self.prices       = {'bcv': None, 'binance': None, 'euro_bcv': None}
         self.last_notified = {'bcv': None, 'binance': None, 'euro_bcv': None}
+        self.rate_dates   = {'bcv': None, 'euro_bcv': None}
         self.running      = True
         self.is_linux     = sys.platform.startswith('linux')
         self.tmp_icon     = "/tmp/ace_icon.png"
@@ -256,7 +281,10 @@ class AceApplet:
         if val is None:
             return f"{name}: Cargando...{primary_mark}"
         formatted = f"{val:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
-        return f"{name}: {formatted} Bs{primary_mark}"
+        weekend_mark = ""
+        if source in ('bcv', 'euro_bcv') and is_bcv_weekend():
+            weekend_mark = f" · LUN {next_monday_label()}"
+        return f"{name}: {formatted} Bs{weekend_mark}{primary_mark}"
 
     def build_pystray_menu(self):
         mk = self.item
@@ -322,16 +350,22 @@ class AceApplet:
 
         if val is not None:
             formatted  = f"{val:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+            weekend    = is_bcv_weekend() and primary in ('bcv', 'euro_bcv')
             title_text = f"{name}: {formatted}"
 
             if self.is_linux:
-                # GNU/Linux superpower: native label always visible on the panel
+                # GNU/Linux: native label has no tooltip — short marker, the
+                # full detail lives in the menu item labels.
+                if weekend:
+                    title_text += " · LUN"
                 self.GLib.idle_add(self.indicator.set_label, title_text, title_text)
                 create_image(primary, self.tmp_icon)
                 self.GLib.idle_add(self.indicator.set_icon_full, self.tmp_icon, "Icon")
                 self.GLib.idle_add(self.rebuild_linux_menu)
             else:
                 # Windows/macOS: icon with price in pixels + tooltip
+                if weekend:
+                    title_text += f" · tasa lunes {next_monday_label()}"
                 self.icon.title = title_text
                 self.icon.icon  = create_text_icon(val, primary)
                 self.icon.update_menu()
@@ -369,6 +403,7 @@ class AceApplet:
                 for rate in data:
                     if rate.get('fuente') == 'oficial':
                         self.prices['bcv'] = rate.get('promedio')
+                        self.rate_dates['bcv'] = rate.get('fechaActualizacion')
                         self.check_changes_and_notify('bcv')
         except Exception as e:
             print("Error dolarapi (USD):", e)
@@ -382,6 +417,7 @@ class AceApplet:
             with urllib.request.urlopen(req, timeout=10) as response:
                 rate = json.loads(response.read().decode())
                 self.prices['euro_bcv'] = rate.get('promedio')
+                self.rate_dates['euro_bcv'] = rate.get('fechaActualizacion')
                 self.check_changes_and_notify('euro_bcv')
         except Exception as e:
             print("Error dolarapi (EUR):", e)

@@ -9,11 +9,11 @@ const aceScriptPath = path.resolve(import.meta.dirname, '../ace.py')
 let appVersion = 'v1.1.0'
 try {
   const aceContent = fs.readFileSync(aceScriptPath, 'utf-8')
-  const versionMatch = aceContent.match(/__version__\s*=\s*['"](v[\d\.]+)['"]/)
+  const versionMatch = aceContent.match(/__version__\s*=\s*['"](v[\d.]+)['"]/)
   if (versionMatch && versionMatch[1]) {
     appVersion = versionMatch[1]
   }
-} catch (e) {
+} catch {
   console.warn("Could not read ace.py for version extraction")
 }
 
@@ -72,6 +72,7 @@ export default defineConfig({
         short_name: 'ACE Cambio',
         description: 'A Cuánto Está — tasas de cambio venezolanas en tiempo real.',
         lang: 'es',
+        dir: 'ltr',
         categories: ['finance', 'utilities'],
         display: 'standalone',
         start_url: '/',
